@@ -214,14 +214,7 @@ function Portfolio() {
 
   return (
     <main className="min-h-screen w-full bg-background text-foreground p-4 md:p-6 lg:h-screen lg:overflow-hidden">
-      <div
-        className="w-full grid gap-4 md:gap-5 lg:h-full lg:grid-cols-12 lg:[grid-template-rows:repeat(8,minmax(0,1fr))]"
-        style={{
-          gridTemplateAreas: undefined,
-        }}
-      >
-        {/* Desktop named-area mapping via inline style */}
-        <style>{`
+      <style>{`
           @media (min-width: 1024px) {
             .portfolio-grid {
               grid-template-areas:
@@ -235,8 +228,7 @@ function Portfolio() {
                 "foot foot foot foot foot foot foot foot foot foot foot foot";
             }
           }
-        `}</style>
-      </div>
+      `}</style>
 
       <div
         className="portfolio-grid w-full grid gap-4 md:gap-5 lg:h-full lg:grid-cols-12 lg:[grid-template-rows:repeat(8,minmax(0,1fr))]"
