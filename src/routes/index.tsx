@@ -44,15 +44,6 @@ function NeuBadge({ tone = "neutral", children }: { tone?: "success" | "warning"
   );
 }
 
-function Panel({ label, children, className = "" }: { label: string; children: React.ReactNode; className?: string }) {
-  return (
-    <section className={`neu-surface p-5 flex flex-col min-h-0 overflow-hidden ${className}`}>
-      <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-3 shrink-0">{label}</p>
-      <div className="flex-1 min-h-0 flex flex-col">{children}</div>
-    </section>
-  );
-}
-
 /* ---------- Data ---------- */
 type Project = {
   name: string; tag: string; status: "success" | "warning" | "primary";
