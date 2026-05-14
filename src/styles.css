@@ -63,14 +63,14 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --background: oklch(0.92 0.012 250);
+  --foreground: oklch(0.32 0.025 255);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
+  --primary: oklch(0.62 0.18 270);
+  --primary-foreground: oklch(0.99 0 0);
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.208 0.042 265.755);
   --muted: oklch(0.968 0.007 247.896);
@@ -95,6 +95,20 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+}
+
+@theme inline {
+  --shadow-neu: 12px 12px 24px oklch(0.78 0.018 255 / 0.55), -12px -12px 24px oklch(1 0 0 / 0.85);
+  --shadow-neu-sm: 6px 6px 12px oklch(0.78 0.018 255 / 0.55), -6px -6px 12px oklch(1 0 0 / 0.9);
+  --shadow-neu-inset: inset 6px 6px 12px oklch(0.78 0.018 255 / 0.6), inset -6px -6px 12px oklch(1 0 0 / 0.9);
+  --shadow-neu-press: inset 4px 4px 8px oklch(0.78 0.018 255 / 0.7), inset -4px -4px 8px oklch(1 0 0 / 0.9);
+}
+
+@layer utilities {
+  .neu-surface { background: var(--color-background); box-shadow: var(--shadow-neu); border-radius: 1.75rem; }
+  .neu-surface-sm { background: var(--color-background); box-shadow: var(--shadow-neu-sm); border-radius: 1.25rem; }
+  .neu-inset { background: var(--color-background); box-shadow: var(--shadow-neu-inset); border-radius: 1.25rem; }
+  .neu-press { box-shadow: var(--shadow-neu-press) !important; }
 }
 
 .dark {
