@@ -173,7 +173,7 @@ const experience = [
   { role: "Frontend Junior", company: "Lumière", period: "2021 — 2022" },
 ];
 
-const PAGE_SIZE = 4;
+const PAGE_SIZE = 6;
 
 /* ---------- Page ---------- */
 function Portfolio() {
@@ -365,9 +365,32 @@ function Portfolio() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 flex-1 min-h-0 overflow-auto pr-1">
+          <div className="relative flex-1 min-h-0">
+            {/* Edge fade overlays */}
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-20 z-10 bg-gradient-to-r from-background via-background/80 to-transparent rounded-l-2xl" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-20 z-10 bg-gradient-to-l from-background via-background/80 to-transparent rounded-r-2xl" />
+
+            {/* Edge-fade nav buttons */}
+            <button
+              onClick={() => setPage((p) => Math.max(0, p - 1))}
+              disabled={page === 0}
+              aria-label="Anterior"
+              className="absolute left-1 top-1/2 -translate-y-1/2 z-20 neu-surface-sm size-10 grid place-items-center rounded-full transition-all duration-200 hover:scale-110 hover:text-primary active:neu-press disabled:opacity-30 disabled:hover:scale-100"
+            >
+              <ChevronLeft className="size-4" />
+            </button>
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+              disabled={page >= totalPages - 1}
+              aria-label="Siguiente"
+              className="absolute right-1 top-1/2 -translate-y-1/2 z-20 neu-surface-sm size-10 grid place-items-center rounded-full transition-all duration-200 hover:scale-110 hover:text-primary active:neu-press disabled:opacity-30 disabled:hover:scale-100"
+            >
+              <ChevronRight className="size-4" />
+            </button>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 grid-rows-2 gap-3 h-full min-h-0 overflow-hidden px-12 md:px-14">
             {current.length === 0 && (
-              <div className="col-span-full grid place-items-center text-xs text-muted-foreground py-12">
+              <div className="col-span-full row-span-full grid place-items-center text-xs text-muted-foreground py-12">
                 Sin resultados
               </div>
             )}
@@ -376,20 +399,15 @@ function Portfolio() {
                 key={p.name}
                 className="neu-inset p-3 rounded-2xl flex flex-col min-h-0 overflow-hidden transition-all duration-200 hover:-translate-y-0.5"
               >
-                <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-3 shrink-0 neu-press">
+                <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-2 shrink-0 neu-press">
                   <img src={p.cover} alt={p.name} className="absolute inset-0 size-full object-cover" loading="lazy" />
                   <span className="absolute top-2 left-2"><NeuBadge tone={p.status}>{p.statusLabel}</NeuBadge></span>
                 </div>
-                <div className="flex items-start justify-between mb-1 shrink-0">
+                <div className="flex items-start justify-between gap-2 mb-1 shrink-0">
                   <h3 className="text-sm font-bold tracking-tight leading-tight">{p.name}</h3>
-                  <span className="text-[9px] uppercase tracking-widest text-muted-foreground">{p.tag}</span>
+                  <span className="text-[9px] uppercase tracking-widest text-muted-foreground shrink-0">{p.tag}</span>
                 </div>
                 <p className="text-[11px] text-muted-foreground leading-snug line-clamp-2 mb-2">{p.description}</p>
-                <div className="flex flex-wrap gap-1 mb-2">
-                  {p.stack.map((s) => (
-                    <span key={s} className="text-[9px] font-mono px-1.5 py-0.5 rounded neu-surface-sm text-muted-foreground">{s}</span>
-                  ))}
-                </div>
                 <button
                   onClick={() => setOpenProject(p)}
                   className="mt-auto neu-surface-sm rounded-xl py-2 px-3 text-xs font-semibold text-primary flex items-center justify-between transition-all duration-200 hover:-translate-y-0.5 active:neu-press shrink-0"
@@ -399,34 +417,20 @@ function Portfolio() {
               </article>
             ))}
           </div>
+          </div>
 
-          {/* Slider / pagination */}
-          <div className="flex items-center justify-between gap-3 pt-3 mt-3 border-t border-border shrink-0">
-            <button
-              onClick={() => setPage((p) => Math.max(0, p - 1))}
-              disabled={page === 0}
-              className="neu-surface-sm size-9 grid place-items-center rounded-xl transition-all duration-200 hover:-translate-y-0.5 active:neu-press disabled:opacity-40 disabled:hover:translate-y-0"
-            >
-              <ChevronLeft className="size-4" />
-            </button>
-            <div className="flex items-center gap-1.5">
+          {/* Pagination dots */}
+          <div className="flex items-center justify-center gap-1.5 pt-3 mt-2 shrink-0">
               {Array.from({ length: totalPages }).map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setPage(i)}
+                  aria-label={`Página ${i + 1}`}
                   className={`h-1.5 rounded-full transition-all duration-200 ${
                     i === page ? "w-6 bg-primary" : "w-1.5 bg-muted-foreground/40 hover:bg-muted-foreground"
                   }`}
                 />
               ))}
-            </div>
-            <button
-              onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
-              disabled={page >= totalPages - 1}
-              className="neu-surface-sm size-9 grid place-items-center rounded-xl transition-all duration-200 hover:-translate-y-0.5 active:neu-press disabled:opacity-40 disabled:hover:translate-y-0"
-            >
-              <ChevronRight className="size-4" />
-            </button>
           </div>
         </section>
 
