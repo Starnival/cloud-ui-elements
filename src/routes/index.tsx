@@ -5,6 +5,7 @@ import {
   Code2, Database, Server, Cloud, Terminal, Cpu,
   Briefcase, ArrowUpRight, X, Circle, User,
   Search, ChevronLeft, ChevronRight,
+  Share2, Download, Copy, Check, Twitter, MessageCircle,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -183,6 +184,20 @@ function Portfolio() {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(0);
   const [slide, setSlide] = useState(0);
+  const [shareOpen, setShareOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const shareUrl = typeof window !== "undefined" ? window.location.href : "https://anasoler.dev";
+  const shareText = "Mira el portfolio de Ana Soler — Backend Developer";
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=${encodeURIComponent(shareUrl)}`;
+
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {}
+  };
 
   useEffect(() => {
     const stored = localStorage.getItem("theme");
@@ -219,7 +234,7 @@ function Portfolio() {
             .portfolio-grid {
               grid-template-areas:
                 "hero hero hero about about about about about about tog tog tog"
-                "hero hero hero about about about about about about contact contact contact"
+                "hero hero hero about about about about about about tog tog tog"
                 "skills skills proj proj proj proj proj proj proj proj exp exp"
                 "skills skills proj proj proj proj proj proj proj proj exp exp"
                 "skills skills proj proj proj proj proj proj proj proj exp exp"
@@ -245,8 +260,53 @@ function Portfolio() {
             </h1>
             <p className="mt-3 text-xs text-primary font-mono">{"<"}backend.dev{"/>"}</p>
           </div>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <MapPin className="size-3.5" /> Barcelona, ES
+
+          <div className="flex flex-col gap-3">
+            <a
+              href="mailto:hola@anasoler.dev"
+              className="neu-surface-sm flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all duration-200 hover:-translate-y-0.5 hover:text-primary active:neu-press min-w-0"
+            >
+              <Mail className="size-4 text-primary shrink-0" />
+              <span className="text-xs font-semibold truncate">hola@anasoler.dev</span>
+            </a>
+
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => setShareOpen(true)}
+                className="neu-surface-sm rounded-xl py-2.5 px-3 text-xs font-bold text-primary flex items-center justify-center gap-1.5 transition-all duration-200 hover:-translate-y-0.5 active:neu-press"
+              >
+                <Share2 className="size-3.5" /> Compartir
+              </button>
+              <a
+                href="/cv.pdf"
+                download="Ana-Soler-CV.pdf"
+                className="neu-surface-sm rounded-xl py-2.5 px-3 text-xs font-bold text-primary flex items-center justify-center gap-1.5 transition-all duration-200 hover:-translate-y-0.5 active:neu-press"
+              >
+                <Download className="size-3.5" /> Descargar CV
+              </a>
+            </div>
+
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
+                <MapPin className="size-3.5" /> Barcelona, ES
+              </div>
+              <div className="flex items-center gap-1.5">
+                <a
+                  href="https://github.com"
+                  target="_blank" rel="noreferrer"
+                  className="neu-surface-sm size-8 grid place-items-center rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:text-primary active:neu-press"
+                >
+                  <Github className="size-3.5" />
+                </a>
+                <a
+                  href="https://linkedin.com"
+                  target="_blank" rel="noreferrer"
+                  className="neu-surface-sm size-8 grid place-items-center rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:text-primary active:neu-press"
+                >
+                  <Linkedin className="size-3.5 text-primary" />
+                </a>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -282,34 +342,17 @@ function Portfolio() {
 
         {/* TOGGLE */}
         <section
-          className="neu-surface p-4 flex items-center justify-between gap-3 min-h-0 overflow-hidden"
+          className="neu-surface p-5 flex flex-col justify-between gap-3 min-h-0 overflow-hidden"
           style={{ gridArea: "tog" }}
         >
-          <div className="min-w-0">
+          <div>
             <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Tema</p>
-            <p className="text-sm font-semibold truncate">{dark ? "Oscuro" : "Claro"}</p>
+            <p className="text-lg font-bold truncate mt-1">{dark ? "Oscuro" : "Claro"}</p>
           </div>
-          <NeuToggle value={dark} onChange={setDark} />
-        </section>
-
-        {/* CONTACT */}
-        <section
-          className="neu-surface p-4 flex items-center gap-3 min-h-0 overflow-hidden"
-          style={{ gridArea: "contact" }}
-        >
-          <a
-            href="mailto:hola@anasoler.dev"
-            className="neu-surface-sm flex-1 flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all duration-200 hover:-translate-y-0.5 hover:text-primary active:neu-press min-w-0"
-          >
-            <Mail className="size-4 text-primary shrink-0" />
-            <span className="text-xs font-semibold truncate">hola@anasoler.dev</span>
-          </a>
-          <button className="neu-surface-sm size-10 grid place-items-center rounded-xl transition-all duration-200 hover:-translate-y-0.5 hover:text-primary active:neu-press shrink-0">
-            <Github className="size-4" />
-          </button>
-          <button className="neu-surface-sm size-10 grid place-items-center rounded-xl transition-all duration-200 hover:-translate-y-0.5 hover:text-primary active:neu-press shrink-0">
-            <Linkedin className="size-4 text-primary" />
-          </button>
+          <div className="flex items-center justify-between">
+            <p className="text-[10px] text-muted-foreground">Cambiar apariencia</p>
+            <NeuToggle value={dark} onChange={setDark} />
+          </div>
         </section>
 
         {/* SKILLS = FILTER */}
@@ -534,6 +577,72 @@ function Portfolio() {
             <button className="w-full neu-surface-sm rounded-2xl py-3 font-semibold text-primary transition-all duration-200 hover:-translate-y-0.5 active:neu-press">
               Abrir caso de estudio
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* SHARE MODAL */}
+      {shareOpen && (
+        <div
+          className="fixed inset-0 z-50 grid place-items-center p-4 md:p-6 bg-background/60 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={() => setShareOpen(false)}
+        >
+          <div
+            className="neu-surface p-6 md:p-8 max-w-sm w-full animate-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between mb-5">
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Compartir</p>
+                <h3 className="text-xl font-bold tracking-tight mt-1">Mi portfolio</h3>
+              </div>
+              <button
+                onClick={() => setShareOpen(false)}
+                className="neu-surface-sm size-9 grid place-items-center rounded-xl transition-all duration-200 hover:-translate-y-0.5 hover:text-primary active:neu-press"
+              >
+                <X className="size-4" />
+              </button>
+            </div>
+
+            {/* QR */}
+            <div className="neu-inset rounded-2xl p-5 grid place-items-center mb-5">
+              <div className="bg-white rounded-xl p-3">
+                <img src={qrUrl} alt="QR del portfolio" width={200} height={200} className="block size-[200px]" />
+              </div>
+              <p className="text-[10px] text-muted-foreground mt-3 text-center">Escanea para abrir en otro dispositivo</p>
+            </div>
+
+            {/* Copy link */}
+            <button
+              onClick={copyLink}
+              className="neu-surface-sm w-full rounded-xl px-3 py-2.5 mb-4 flex items-center gap-2 transition-all duration-200 hover:-translate-y-0.5 active:neu-press"
+            >
+              {copied ? <Check className="size-4 text-emerald-600 shrink-0" /> : <Copy className="size-4 text-primary shrink-0" />}
+              <span className="text-xs font-mono truncate flex-1 text-left text-muted-foreground">{shareUrl}</span>
+              <span className="text-[10px] font-bold text-primary shrink-0">{copied ? "Copiado" : "Copiar"}</span>
+            </button>
+
+            {/* Networks */}
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">Redes</p>
+            <div className="grid grid-cols-4 gap-2">
+              {[
+                { Icon: Twitter, label: "X", href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}` },
+                { Icon: Linkedin, label: "LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}` },
+                { Icon: MessageCircle, label: "WhatsApp", href: `https://wa.me/?text=${encodeURIComponent(`${shareText} ${shareUrl}`)}` },
+                { Icon: Mail, label: "Email", href: `mailto:?subject=${encodeURIComponent(shareText)}&body=${encodeURIComponent(shareUrl)}` },
+              ].map(({ Icon, label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="neu-surface-sm rounded-xl py-3 flex flex-col items-center gap-1.5 transition-all duration-200 hover:-translate-y-0.5 hover:text-primary active:neu-press"
+                >
+                  <Icon className="size-4" />
+                  <span className="text-[10px] font-semibold">{label}</span>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       )}
