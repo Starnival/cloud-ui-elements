@@ -187,9 +187,12 @@ function Portfolio() {
         </section>
 
         {/* EDUCATION */}
-        <Panel label="Educación" className="" >
-          <div style={{ gridArea: "edu" }} />
-          <div className="space-y-2 overflow-auto pr-1">
+        <section
+          className="neu-surface p-5 flex flex-col min-h-0 overflow-hidden"
+          style={{ gridArea: "edu" }}
+        >
+          <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-3 shrink-0">Educación</p>
+          <div className="flex-1 flex flex-col justify-around gap-2 min-h-0 overflow-auto">
             {education.map((e) => (
               <div key={e.title} className="neu-inset p-3 rounded-xl">
                 <div className="flex items-center gap-2 mb-1">
@@ -202,10 +205,7 @@ function Portfolio() {
               </div>
             ))}
           </div>
-        </Panel>
-        <style>{`
-          [data-edu] {}
-        `}</style>
+        </section>
 
         {/* CONTACT */}
         <section
