@@ -5,6 +5,7 @@ import {
   Code2, Database, Server, Cloud, Terminal, Cpu,
   Briefcase, ArrowUpRight, X, Circle, User,
   Search, ChevronLeft, ChevronRight,
+  Share2, Download, Copy, Check, Twitter, MessageCircle,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
