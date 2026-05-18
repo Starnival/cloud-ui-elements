@@ -10,6 +10,23 @@ import {
 
 export const Route = createFileRoute("/")({
   component: Portfolio,
+  head: () => ({
+    meta: [
+      { title: "Ana Soler — Backend Developer · Portfolio" },
+      {
+        name: "description",
+        content:
+          "Portfolio de Ana Soler — backend developer autodidacta. APIs, bases de datos, DevOps y servicios escalables.",
+      },
+      { property: "og:title", content: "Ana Soler — Backend Developer" },
+      {
+        property: "og:description",
+        content: "APIs, datos y servicios. Portfolio minimalista con neumorphism.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
 });
 
 /* ---------- Primitives ---------- */
@@ -186,10 +203,13 @@ function Portfolio() {
   const [slide, setSlide] = useState(0);
   const [shareOpen, setShareOpen] = useState(false);
   const [copied, setCopied] = useState(false);
-
-  const shareUrl = typeof window !== "undefined" ? window.location.href : "https://anasoler.dev";
+  const [shareUrl, setShareUrl] = useState("https://anasoler.dev");
   const shareText = "Mira el portfolio de Ana Soler — Backend Developer";
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=${encodeURIComponent(shareUrl)}`;
+
+  useEffect(() => {
+    setShareUrl(window.location.href);
+  }, []);
 
   const copyLink = async () => {
     try {
@@ -207,6 +227,29 @@ function Portfolio() {
     document.documentElement.classList.toggle("dark", dark);
     localStorage.setItem("theme", dark ? "dark" : "light");
   }, [dark]);
+
+  // Close modals with Escape; lock body scroll while open.
+  useEffect(() => {
+    const anyOpen = !!openProject || shareOpen;
+    if (!anyOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpenProject(null);
+        setShareOpen(false);
+      }
+      if (openProject && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
+        const n = openProject.gallery.length;
+        setSlide((s) => (e.key === "ArrowLeft" ? (s - 1 + n) % n : (s + 1) % n));
+      }
+    };
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [openProject, shareOpen]);
 
   const filtered = useMemo(() => {
     return projects.filter((p) => {
@@ -228,7 +271,7 @@ function Portfolio() {
   const current = filtered.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
 
   return (
-    <main className="min-h-screen w-full bg-background text-foreground p-4 md:p-6 lg:h-screen lg:overflow-hidden">
+    <main className="min-h-[100dvh] w-full bg-background text-foreground p-3 sm:p-4 md:p-6 lg:h-screen lg:overflow-hidden">
       <style>{`
           @media (min-width: 1024px) {
             .portfolio-grid {
@@ -255,7 +298,7 @@ function Portfolio() {
         >
           <div>
             <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-2">Portfolio · 2026</p>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tighter leading-[0.95]">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter leading-[0.95]">
               Ana<br/>Soler
             </h1>
             <p className="mt-3 text-xs text-primary font-mono">{"<"}backend.dev{"/>"}</p>
@@ -363,14 +406,14 @@ function Portfolio() {
           <div className="flex items-center justify-between mb-4 shrink-0">
             <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Skills · Filtro</p>
           </div>
-          <div className="flex-1 flex flex-col gap-2 min-h-0 overflow-auto pr-1">
+          <div className="flex-1 flex flex-row lg:flex-col gap-2 min-h-0 overflow-x-auto lg:overflow-y-auto lg:overflow-x-hidden lg:pr-1 -mx-1 px-1 lg:mx-0 lg:px-0 snap-x snap-mandatory lg:snap-none">
             {skills.map((s) => {
               const active = filter === s.tag;
               return (
                 <button
                   key={s.label}
                   onClick={() => setFilter(s.tag)}
-                  className={`flex items-center gap-3 p-2.5 rounded-xl transition-all duration-200 text-left ${
+                  className={`flex items-center gap-3 p-2.5 rounded-xl transition-all duration-200 text-left shrink-0 lg:shrink snap-start ${
                     active
                       ? "neu-press text-primary"
                       : "neu-surface-sm hover:-translate-y-0.5 hover:text-primary"
@@ -379,8 +422,8 @@ function Portfolio() {
                   <div className={`size-9 grid place-items-center rounded-lg shrink-0 ${active ? "neu-inset" : "neu-surface-sm"}`}>
                     <s.icon className={`size-4 ${active ? "text-primary" : ""}`} />
                   </div>
-                  <span className="text-xs font-bold tracking-tight truncate flex-1">{s.label}</span>
-                  {active && <Circle className="size-2 fill-current text-primary shrink-0" />}
+                  <span className="text-xs font-bold tracking-tight truncate lg:flex-1">{s.label}</span>
+                  {active && <Circle className="hidden lg:block size-2 fill-current text-primary shrink-0" />}
                 </button>
               );
             })}
@@ -431,9 +474,9 @@ function Portfolio() {
               <ChevronRight className="size-4" />
             </button>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 grid-rows-2 gap-3 h-full min-h-0 overflow-hidden px-12 md:px-14">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 gap-3 lg:h-full min-h-0 lg:overflow-hidden px-10 sm:px-12 md:px-14">
             {current.length === 0 && (
-              <div className="col-span-full row-span-full grid place-items-center text-xs text-muted-foreground py-12">
+              <div className="col-span-full lg:row-span-full grid place-items-center text-xs text-muted-foreground py-12">
                 Sin resultados
               </div>
             )}
@@ -483,7 +526,7 @@ function Portfolio() {
           style={{ gridArea: "exp" }}
         >
           <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-4 shrink-0">Experiencia</p>
-          <div className="flex-1 flex flex-col justify-around gap-2 min-h-0 overflow-auto">
+          <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-2 lg:flex lg:flex-col lg:justify-around min-h-0 lg:overflow-auto">
             {experience.map((x) => (
               <div key={x.company} className="neu-inset p-3 rounded-xl">
                 <div className="flex items-center gap-2 mb-1">
@@ -512,7 +555,10 @@ function Portfolio() {
       {/* MODAL */}
       {openProject && (
         <div
-          className="fixed inset-0 z-50 grid place-items-center p-4 md:p-6 bg-background/60 backdrop-blur-sm animate-in fade-in duration-200"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Detalle de ${openProject.name}`}
+          className="fixed inset-0 z-50 grid place-items-center p-3 sm:p-4 md:p-6 bg-background/60 backdrop-blur-sm animate-in fade-in duration-200"
           onClick={() => setOpenProject(null)}
         >
           <div
@@ -584,7 +630,10 @@ function Portfolio() {
       {/* SHARE MODAL */}
       {shareOpen && (
         <div
-          className="fixed inset-0 z-50 grid place-items-center p-4 md:p-6 bg-background/60 backdrop-blur-sm animate-in fade-in duration-200"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Compartir portfolio"
+          className="fixed inset-0 z-50 grid place-items-center p-3 sm:p-4 md:p-6 bg-background/60 backdrop-blur-sm animate-in fade-in duration-200"
           onClick={() => setShareOpen(false)}
         >
           <div
