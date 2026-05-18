@@ -10,6 +10,23 @@ import {
 
 export const Route = createFileRoute("/")({
   component: Portfolio,
+  head: () => ({
+    meta: [
+      { title: "Ana Soler — Backend Developer · Portfolio" },
+      {
+        name: "description",
+        content:
+          "Portfolio de Ana Soler — backend developer autodidacta. APIs, bases de datos, DevOps y servicios escalables.",
+      },
+      { property: "og:title", content: "Ana Soler — Backend Developer" },
+      {
+        property: "og:description",
+        content: "APIs, datos y servicios. Portfolio minimalista con neumorphism.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
 });
 
 /* ---------- Primitives ---------- */
@@ -186,10 +203,13 @@ function Portfolio() {
   const [slide, setSlide] = useState(0);
   const [shareOpen, setShareOpen] = useState(false);
   const [copied, setCopied] = useState(false);
-
-  const shareUrl = typeof window !== "undefined" ? window.location.href : "https://anasoler.dev";
+  const [shareUrl, setShareUrl] = useState("https://anasoler.dev");
   const shareText = "Mira el portfolio de Ana Soler — Backend Developer";
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=${encodeURIComponent(shareUrl)}`;
+
+  useEffect(() => {
+    setShareUrl(window.location.href);
+  }, []);
 
   const copyLink = async () => {
     try {
@@ -207,6 +227,29 @@ function Portfolio() {
     document.documentElement.classList.toggle("dark", dark);
     localStorage.setItem("theme", dark ? "dark" : "light");
   }, [dark]);
+
+  // Close modals with Escape; lock body scroll while open.
+  useEffect(() => {
+    const anyOpen = !!openProject || shareOpen;
+    if (!anyOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpenProject(null);
+        setShareOpen(false);
+      }
+      if (openProject && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
+        const n = openProject.gallery.length;
+        setSlide((s) => (e.key === "ArrowLeft" ? (s - 1 + n) % n : (s + 1) % n));
+      }
+    };
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [openProject, shareOpen]);
 
   const filtered = useMemo(() => {
     return projects.filter((p) => {
