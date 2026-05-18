@@ -1,0 +1,170 @@
+{
+  "meta": {
+    "title": "Ana Soler — Backend Developer · Portfolio",
+    "description": "Portfolio de Ana Soler — backend developer autodidacta. APIs, bases de datos, DevOps y servicios escalables.",
+    "ogTitle": "Ana Soler — Backend Developer",
+    "ogDescription": "APIs, datos y servicios. Portfolio minimalista con neumorphism."
+  },
+  "hero": {
+    "kicker": "Portfolio · 2026",
+    "firstName": "Ana",
+    "lastName": "Soler",
+    "tagline": "<backend.dev/>",
+    "email": "hola@anasoler.dev",
+    "location": "Barcelona, ES",
+    "cvUrl": "/cv.pdf",
+    "cvFileName": "Ana-Soler-CV.pdf",
+    "shareUrlFallback": "https://anasoler.dev",
+    "shareText": "Mira el portfolio de Ana Soler — Backend Developer",
+    "socials": {
+      "github": "https://github.com",
+      "linkedin": "https://linkedin.com"
+    }
+  },
+  "about": {
+    "kicker": "Sobre mí",
+    "availability": "Disponible",
+    "title": "Backend developer",
+    "subtitle": "Autodidacta · APIs, datos y servicios",
+    "body": "Construyo servicios backend escalables con foco en rendimiento, observabilidad y APIs limpias. Aprendizaje autodidacta y pragmático: del prototipo al despliegue, cuidando cada capa de datos.",
+    "tags": [
+      { "label": "APIs", "tone": "primary" },
+      { "label": "SQL", "tone": "neutral" },
+      { "label": "Cloud", "tone": "neutral" }
+    ]
+  },
+  "skills": [
+    { "icon": "Cpu", "label": "Todos", "tag": "All" },
+    { "icon": "Server", "label": "Backend", "tag": "Backend" },
+    { "icon": "Terminal", "label": "API", "tag": "API" },
+    { "icon": "Database", "label": "Database", "tag": "Database" },
+    { "icon": "Cloud", "label": "DevOps", "tag": "DevOps" },
+    { "icon": "Code2", "label": "Frontend", "tag": "Frontend" }
+  ],
+  "projects": [
+    {
+      "name": "Helios API",
+      "tag": "API",
+      "status": "success",
+      "statusLabel": "Producción",
+      "description": "API REST para gestión de pedidos en tiempo real. Autenticación JWT, rate limiting y documentación OpenAPI auto-generada.",
+      "stack": ["Node", "Fastify", "Zod"],
+      "cover": "https://picsum.photos/seed/helios/800/500",
+      "gallery": [
+        "https://picsum.photos/seed/helios-1/800/500",
+        "https://picsum.photos/seed/helios-2/800/500",
+        "https://picsum.photos/seed/helios-3/800/500"
+      ]
+    },
+    {
+      "name": "Orion DB",
+      "tag": "Database",
+      "status": "primary",
+      "statusLabel": "Activo",
+      "description": "Capa de datos con migraciones, seeders y vistas materializadas. Optimización de consultas y particionado por fecha.",
+      "stack": ["Postgres", "Drizzle", "Redis"],
+      "cover": "https://picsum.photos/seed/orion/800/500",
+      "gallery": [
+        "https://picsum.photos/seed/orion-1/800/500",
+        "https://picsum.photos/seed/orion-2/800/500",
+        "https://picsum.photos/seed/orion-3/800/500"
+      ]
+    },
+    {
+      "name": "Atlas Pipelines",
+      "tag": "DevOps",
+      "status": "success",
+      "statusLabel": "CI/CD",
+      "description": "Pipelines de despliegue continuo con previews por PR, blue/green y rollback automático. Observabilidad integrada.",
+      "stack": ["GH Actions", "Docker", "K8s"],
+      "cover": "https://picsum.photos/seed/atlas/800/500",
+      "gallery": [
+        "https://picsum.photos/seed/atlas-1/800/500",
+        "https://picsum.photos/seed/atlas-2/800/500",
+        "https://picsum.photos/seed/atlas-3/800/500"
+      ]
+    },
+    {
+      "name": "Nimbus Workers",
+      "tag": "Backend",
+      "status": "warning",
+      "statusLabel": "Beta",
+      "description": "Workers serverless para procesar tareas en background: emails transaccionales, webhooks y reportes.",
+      "stack": ["Cloudflare", "Queues", "TS"],
+      "cover": "https://picsum.photos/seed/nimbus/800/500",
+      "gallery": [
+        "https://picsum.photos/seed/nimbus-1/800/500",
+        "https://picsum.photos/seed/nimbus-2/800/500",
+        "https://picsum.photos/seed/nimbus-3/800/500"
+      ]
+    },
+    {
+      "name": "Vega Auth",
+      "tag": "Backend",
+      "status": "success",
+      "statusLabel": "Producción",
+      "description": "Servicio de autenticación con OAuth, MFA y sesiones revocables. Logs de auditoría y rotación de claves.",
+      "stack": ["Go", "Postgres", "JWT"],
+      "cover": "https://picsum.photos/seed/vega/800/500",
+      "gallery": [
+        "https://picsum.photos/seed/vega-1/800/500",
+        "https://picsum.photos/seed/vega-2/800/500",
+        "https://picsum.photos/seed/vega-3/800/500"
+      ]
+    },
+    {
+      "name": "Pulse Metrics",
+      "tag": "API",
+      "status": "primary",
+      "statusLabel": "Diseño",
+      "description": "API de telemetría: ingesta de eventos, agregaciones por minuto y consultas por dimensión arbitraria.",
+      "stack": ["Rust", "ClickHouse", "gRPC"],
+      "cover": "https://picsum.photos/seed/pulse/800/500",
+      "gallery": [
+        "https://picsum.photos/seed/pulse-1/800/500",
+        "https://picsum.photos/seed/pulse-2/800/500",
+        "https://picsum.photos/seed/pulse-3/800/500"
+      ]
+    },
+    {
+      "name": "Lyra Cache",
+      "tag": "Database",
+      "status": "success",
+      "statusLabel": "Estable",
+      "description": "Capa de caché distribuida con invalidación por tags y warm-up automático tras despliegues.",
+      "stack": ["Redis", "Lua", "Node"],
+      "cover": "https://picsum.photos/seed/lyra/800/500",
+      "gallery": [
+        "https://picsum.photos/seed/lyra-1/800/500",
+        "https://picsum.photos/seed/lyra-2/800/500",
+        "https://picsum.photos/seed/lyra-3/800/500"
+      ]
+    },
+    {
+      "name": "Forge Console",
+      "tag": "Frontend",
+      "status": "warning",
+      "statusLabel": "Beta",
+      "description": "Consola web para administrar servicios internos: control de feature flags y despliegues con un click.",
+      "stack": ["React", "TS", "tRPC"],
+      "cover": "https://picsum.photos/seed/forge/800/500",
+      "gallery": [
+        "https://picsum.photos/seed/forge-1/800/500",
+        "https://picsum.photos/seed/forge-2/800/500",
+        "https://picsum.photos/seed/forge-3/800/500"
+      ]
+    }
+  ],
+  "experience": [
+    { "role": "Backend Developer", "company": "Faro Studio", "period": "2024 — Hoy" },
+    { "role": "Full-stack autodidacta", "company": "Proyectos propios", "period": "2022 — 2024" },
+    { "role": "Frontend Junior", "company": "Lumière", "period": "2021 — 2022" }
+  ],
+  "footer": {
+    "left": "© 2026 · Ana Soler",
+    "right": "v2.0 · backend"
+  },
+  "config": {
+    "projectsPageSize": 6
+  }
+}
