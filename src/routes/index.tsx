@@ -474,7 +474,7 @@ function Portfolio() {
               <ChevronRight className="size-4" />
             </button>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 gap-3 h-full min-h-0 lg:overflow-hidden px-10 sm:px-12 md:px-14">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 gap-3 lg:h-full min-h-0 lg:overflow-hidden px-10 sm:px-12 md:px-14">
             {current.length === 0 && (
               <div className="col-span-full lg:row-span-full grid place-items-center text-xs text-muted-foreground py-12">
                 Sin resultados
